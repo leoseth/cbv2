@@ -1,0 +1,171 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Autoparts System</title>
+   
+    <link rel="icon" href="favicon.ico" />
+
+    <script src="js/Global.js"></script>
+    <script src="jquery/jquery-1.10.2.js"></script>
+    <script src="lib/angular.min.js"></script>
+
+    <link href="css/index_css.css" rel="stylesheet"/>
+  
+</head>
+<body>  
+       <div id ="customerdiv" class="customerclass">
+            <label class="lblrfidclass">RFID_Code</label>
+            <label id="lblcustrequired" class="lblcustrequiredclass">All customer fields are required!!!</label>                                                                                                                                                                      
+            
+            <input ID="txtrfid" runat="server" class="txtrfidclass" Font-Size="12px" MaxLength="10" onkeyup="txtOnKeyPress(this)" TabIndex="1" AutoPostBack="false" onkeydown = "return (event.keyCode!=13);" BackColor="White"/>      
+            <input ID="txtrfid2" runat="server" class="txtrfid2class" MaxLength="10" oninput="rfid2func(this)" onkeydown="return(event.keycode!=13);" BackColor="LightYellow" ForeColor="LightYellow" BorderColor="LightYellow" BorderStyle="None" Font-Size="XX-Small" Text="" onkeypress="Grfid2Code(event)"/>               
+
+            <source ID="sqldatasource1" runat="server" ConnectionString="Data Source=SAMSUNGLEO\SQLEXPRESS;Initial Catalog=AUTOPARTS;Integrated Security=true" DataSourceMode="DataReader" ProviderName="System.Data.SqlClient" SelectCommand="SELECT LTRIM(rfid_code) +'.               .'+ LTRIM(custnum) AS combined FROM customer"/> 
+
+            <label ID="lblcustid" class="lblcustidclass">Customer ID</label>               
+            <input ID="txtcustid" runat="server" class="txtcustidclass" Enabled="False" Font-Size="12px" MaxLength="15" TabIndex="2" AutoPostBack="false" onkeydown = "return (event.KeyCode!=13);"/>
+                           
+            <label ID="lblcustomtype" class="lblcustomtypeclass">Customer Type</label>            
+            <select id="customtype" runat="server" class="customtypeclass" disabled="disabled" name="customtype" onchange="fcustomtype()" onkeydown = "txtOnKeyPress1(this);" tabindex="3" onkeyup = "return (event.KeyCode!=13);">
+                    <option value=""></option>
+                    <option value="Individual">Individual</option>
+                    <option value="Company">Company</option>
+            </select>
+            
+            <input id="HiddenField2" type="hidden" runat="server"/>                               
+            <label ID="lblcompname" class="lblcompnameclass">Company name</label> 
+            <input ID="txtcompname" runat="server" class="txtcompnameclass" enabled="false" Font-Size="12px" MaxLength="35" onkeyup="txtOnKeyPress2(this);" oninput="covertcompname()"  TabIndex="4" AutoPostBack="false" onkeydown = "return (event.keyCode!=13);"/>
+           
+            <label ID="lbllastname" class="lbllastnameclass">Lastname</label>                            
+            <input ID="txtlastname" runat="server" class="txtlastnameclass" Enabled="false" Font-Size="12px" MaxLength="18" onkeyup="txtOnKeyPress3(this);" onkeypress="getkeypressed(event)" oninput="convertlast()" TabIndex="5" AutoPostBack="false" onkeydown = "return (event.keyCode!=13);"/>
+                
+            <label ID="lblfirstname" class="lblfirstnameclass">Firstname</label>                                         
+            <input ID="txtfirstname" runat="server" class="txtfirstnameclass" Enabled="false" Font-Size="12px" MaxLength="18" onkeyup="txtOnKeyPress4(this);" oninput="convertfirst()"  TabIndex="6" AutoPostBack="false" onkeydown = "return (event.keyCode!=13);"/>
+                              
+            <label ID="lblmiddlename" class="lblmiddlenameclass">Middle Name</label>
+            <input ID="txtmiddlename" runat="server" class="txtmiddlenameclass" enabled="false" Font-Size="12px" MaxLength="18" onkeyup="txtOnKeyPress5(this);" oninput="convertmiddle()"  TabIndex="7" AutoPostBack="false" onkeydown = "return (event.keyCode!=13);"/>
+                          
+            <label ID="lbladdress" class="lbladdressclass">Address</label>
+            <input ID="txtaddress" runat="server" class="txtaddressclass" Enabled="false" MaxLength="100" oninput="convertaddress()" onkeyup="txtOnKeyPress6(this);" TextMode="MultiLine" TabIndex="8" AutoPostBack="false" onkeydown = "return (event.keyCode!=13);"/>                
+            
+            <label ID="lbltelno" class="lbltelnoclass">Phone number</label>
+            <input ID="txttelno" runat="server" class="txttelnoclass" Enabled="false" Font-Size="12px" MaxLength="14" onkeyup="txtOnKeyPress7(this);" onkeypress="GetKeyCode(event)" TabIndex="9" AutoPostBack="false" onkeydown = "return (event.keyCode!=13);"/>                               
+                       
+            <label ID="lbltel" class="lbltelclass">Please type the phone number including the areacode</label>
+            <label ID="lblmobilenum" class="lblmobilenumclass">Mobile number</label>
+            <input ID="txtmobilenum" runat="server" class="txtmobilenumclass" enabled="false" Font-Size="12px" MaxLength="11" onkeyup="txtOnKeyPress8(this);" onkeypress="GetKeyCode(event)" TabIndex="10" AutoPostBack="false" onkeydown = "return (event.keyCode!=13);"/>
+               
+            <label ID="lblemailadd" class="lblemailaddclass">Email address</label>
+            <input ID="txtemailadd" runat="server" class="txtemailaddclass" enabled="false" Font-Size="12px" MaxLength="30" onkeyup="txtOnKeyPress9(this);" TabIndex="11" AutoPostBack="false" onkeydown = "return (event.keyCode!=13);"/>
+               
+            <label ID="lblbirthday"  class="lblbirthdayclass">Birthday</label>
+            <input ID="txtbirthday"  runat="server" class="txtbirthday2class" enabled="false" Font-Size="12px" onkeyup="txtOnKeyPress10(this);" Type="Date" TabIndex="12" AutoPostBack="false" onkeydown = "return (event.keyCode!=13);"/>
+            <input ID="txtbirthday2" runat="server" class="txtbirthday2class" enabled="false" Font-Size="12px" onkeyup="txtOnKeyPress10(this);" Type="text" TabIndex="13" AutoPostBack="false" onkeydown = "return (event.keyCode!=13);"/>
+                
+            <label ID="lblbirthplace" class="lblbirthplaceclass">Birth Place</label>
+            <input ID="txtbirthplace" runat="server" class="txtbirthplaceclass" enabled="false" onkeyup="txtOnKeyPress11(this);" oninput="convertbirthplace()"  TabIndex="14" AutoPostBack="false" onkeydown = "return (event.keyCode!=13);"/>
+              
+            <label ID="lblnationality" class="lblnationalityclass">Nationality</label>
+            <input ID="txtnationality" runat="server" class="txtnationalityclass" enabled="false" Font-Size="12px" MaxLength="15" onkeyup="txtOnKeyPress12(this);" oninput="convertnational()"  TabIndex="15" AutoPostBack="false" onkeydown = "return (event.keyCode!=13);"/>
+               
+            <label ID="lblidtype" class="lblidtypeclass">ID Type</label>
+            <select id="sidtype" runat="server" class="sidtypeclass" disabled="disabled" name="sidtype" onchange="fsidtype()" onkeyup="txtOnKeyPress13(this);" tabindex="16" AutoPostBack="false" onkeydown = "return (event.keyCode!=13);">               
+                    <option value=""></option>
+                    <option value="PASSPORT">PASSPORT</option>
+                    <option value="SSS">SSS</option>
+                    <option value="TIN">TIN</option>
+                    <option value="VOTERS">VOTERS</option>
+                    <option value="DRIVER S LICENSE">DRIVER&#39;S LICENSE</option>
+                    <option value="SENIOR">SENIOR</option>
+                    <option value="GSIS">GSIS</option>
+                    <option value="OFW">OFW</option>
+                    <option value="SCHOOL">SCHOOL</option>
+                    <option value="OTHERS">OTHERS</option>
+            </select>
+
+            <label ID="lblidnumber" class="lblidnumberclass">ID number</label>               
+            <input ID="txtidnumber" runat="server" class="txtidnumberclass" Enabled="false" Font-Size="13px" MaxLength="15" onkeyup="txtOnKeyPress14(this);" oninput="convertidnumber()" TabIndex="17"/>
+            
+            <input ID="txtcustid2" runat="server" class="txtcustid2class" TabIndex="18"/>
+            <label ID="Label2" class="Label2class">Customer Library</label>
+           
+                    <button ID="btnadd"    runat="server" class ="btnaddclass" Font-Size="12px" Height="17px" OnClick="Button1_Click">Add customer</button>
+                    <button ID="btnedit"   runat="server" class="btneditclass" Font-Size="12px" Height="17px" OnClick="btnedit_Click">Edit</button>
+                    <button ID="btndelete" runat="server" class="btndeleteclass" Font-Size="12px" Height="17px" OnClick="btndelete_Click">Delete</button>
+                    <button ID="btnview"   runat="server" class="btnviewclass" Font-Size="12px" Height="17px" OnClick="btnview_Click">View</button>
+                    <button ID="btnsearch" runat="server" class="btnsearchclass" Font-Size="12px" Height="17px" OnClick="btnsearch_Click">Search RFID</button> 
+           
+                    <input ID="txtsearch" runat="server" BorderColor="#8080FF" BorderWidth="1px" class="txtsearchclass" Wrap="false" TabIndex="19" onkeyup="function (evt)" oninput="searchtext(this)" onkeydown="searchtext(this)"/> 
+                    <select id="customertype" runat="server" class="customertypeclass" name="customertype" onchange="jsFunction(this.value);" onmousedown="this.value='';" style="border: thin inset #0000FF">
+                            <option value=""></option>
+                            <option value="Individual">Individual</option>
+                            <option value="Company">Company</option>
+                    </select>                     
+              
+                    <select ID="Listedit" runat="server" class="Listeditclass" Font-Names="Microsoft Sans Serif" onkeypress="Submit()" SelectionMode="Multiple" Visible="true"></select>                                                                                                                               
+
+                    <Label ID="lblcarrefernces" class="lblcarreferncesclass">Car references : PLATE NUMBER #</Label>
+
+                    <select ID="ListBoxview" runat="server" class="ListBoxviewclass" Font-Size="Small" onkeypress="Submit()" SelectionMode="Multiple" Visible="true" Font-Names="Tahoma"></select>
+                    <label ID="lblError" class="lblErrorclass">Label</label>
+
+                    <!--<asp:Panel ID="panelsearch" runat="server" DefaultButton="sdt">
+                        <asp:Button ID="sdt" runat="server" CssClass="sdtclass" OnClick="HiddenField2_click" style="display:none" type="text" />
+                    </asp:Panel>-->
+                
+                    <label ID="lblline1" class="lblline1class"></label>
+
+                    <select ID="transactionlistbox" runat="server" BackColor="#FFFFCA" class="transactionlistboxclass" Font-Bold="True" Font-Names="Times New Roman" ForeColor="#0000A0" onkeypress="extract()" SelectionMode="Multiple" Visible="true" OnTextChanged="transactionlistbox_SelectedIndexChanged"></select>
+                
+                    <label ID="lblcomp" class="lblcompclass">Company Name</label>
+                    <label ID="lbltelephone" class="lbltelnoclass2">Tephone number</label>
+
+                    <!--<asp:Panel ID="panecarref" runat="server" DefaultButton="btncaref">
+                         <asp:Button ID="btncaref" runat="server" OnClick="btncaref_Click" style="display:none" />
+                    </asp:Panel> 
+
+                    <asp:Panel ID="panecarref2" runat="server" DefaultButton="btncaref2">
+                         <asp:Button ID="btncaref2" runat="server" OnClick="btncaref2_Click" style="display:none" />
+                    </asp:Panel> -->
+
+                    <select id ="carrefdropdownlist" runat="server" class="carrefdropdownlistclass" ondblclick="SQLconnect()" onchange="SQLconnect()"></select>
+                    <input ID ="carrefhidden" runat="server" Value="none" type="hidden"/>
+     
+                    <source ID="SqlDataSource_grid" runat="server" ConnectionString="Data Source=SAMSUNGLEO\SQLEXPRESS;Initial Catalog=AUTOPARTS;Integrated Security=true" ProviderName="System.Data.SqlClient" SelectCommand="select * from customer"/>
+
+                    <label ID="lbledit" onclick ="clickseacrh()" visible="false"></label>
+
+                    <input ID="Textlog2" runat="server" Visible="false"/>        
+                    <input ID="HiddenField1" runat="server" type="hidden"/> 
+                    <input ID="HiddenField_edit" runat="server" type="hidden"/>
+                    <input ID="Hiddenfield_car" runat="server" type="hidden"/>
+                    <input ID="Hiddencar_edit" runat="server" type="hidden"/>
+                    <input ID="hiddenclick" runat="server" type="hidden"/>
+                    <input ID="hiddenfieldrfid" runat="server" type="hidden"/>
+                    <input ID="nosearch" runat="server" type="hidden"/>
+                    <input ID="confirmed" runat="server" type="hidden"/>
+                    <input ID ="no_option" runat="server" type="hidden"/>
+                    <input ID ="transaction_edit" runat="server" type="hidden"/>
+                    <input ID ="transact_value" runat="server" type="hidden"/>
+                    <input ID ="edit2" runat="server" type="hidden"/>
+                    <!--<select ID="resultlist" runat="server" class="resultlistclass"></select>-->
+                    <!--<img id ="customerimage" src="images/cbv_logo3.jpg" alt="customer_image" class="customerimageclass" />-->                                                                             
+
+                    <input ID="transactionedit" runat="server" type="hidden"/>
+                    <input ID="hiddentrnlistcount" runat="server" Value="0" type="hidden"/>
+                    <input ID="transact_skipload" runat="server" type="hidden"/>
+                     
+                    <label ID="lbleditcustid" runat="server" class="lbledtcustidclass">Customer ID</label>
+                    <label ID="lblsearch" runat="server" class="lblsearchclass" Font-Bold="True" Font-Size="Small">Search by:</label>    
+                    <label ID="lblname" runat="server" class="lblnameclass">Lastname</label>
+                    <label ID="lblfirst" runat="server" class="lblfirstclass">Firstname</label>               
+                                      
+                    <div id="confirmdiv" class="confirmdivclass" runat="server">                                             
+                         <button id="id_true"  type="button" style="width:80px;background-color:lightgray;height:16px;border-color:blue; border-width:thin;font-size:x-small" onclick ="mousesave()" onkeydown="savingrec(this)">SAVE</button>
+                         <button id="id_false" type="button" style="width:80px;background-color:lightgray;height:16px;border-color:blue; border-width:thin;font-size:x-small;margin-left:20px" onclick="mousecancel()">CANCEL</button>                                    
+                    </div>                                                   
+       </div>       
+                    <script src="js/confirmation.js"></script>                                                           
+                    <script src="js/customer_keypressr.js"></script>
+</body>
+</html>
